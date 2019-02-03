@@ -77,7 +77,7 @@ def main(opt):
         out_image = np.array(out_image)
         try:
             out
-        except:
+        except NameError:
             out = cv2.VideoWriter(opt.output, cv2.VideoWriter_fourcc(*"XVID"), fps,
                                   ((out_image.shape[1], out_image.shape[0])))
 
