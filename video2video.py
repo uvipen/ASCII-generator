@@ -28,16 +28,10 @@ def main(opt):
         CHAR_LIST = '@%#*+=-:. '
     else:
         CHAR_LIST = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,\"^`'. "
-    if opt.background == "white":
-        bg_code = 255
-    else:
-        bg_code = 0
+    bg_code = 255 if opt.background == "white" else 0
     font = ImageFont.truetype("fonts/DejaVuSansMono-Bold.ttf", size=int(10 * opt.scale))
     cap = cv2.VideoCapture(opt.input)
-    if opt.fps == 0:
-        fps = int(cap.get(cv2.CAP_PROP_FPS))
-    else:
-        fps = opt.fps
+    fps = opt.fps or int(cap.get(cv2.CAP_PROP_FPS))
     num_chars = len(CHAR_LIST)
     num_cols = opt.num_cols
     while cap.isOpened():
@@ -68,10 +62,7 @@ def main(opt):
                             range(num_cols)]) + "\n"
             draw.text((0, i * char_height), line, fill=255 - bg_code, font=font)
 
-        if opt.background == "white":
-            cropped_image = ImageOps.invert(out_image).getbbox()
-        else:
-            cropped_image = out_image.getbbox()
+        cropped_image = ImageOps.invert(out_image).getbbox() if opt.background == "white" else out_image.getbbox()
         out_image = out_image.crop(cropped_image)
         out_image = cv2.cvtColor(np.array(out_image), cv2.COLOR_GRAY2BGR)
         out_image = np.array(out_image)
