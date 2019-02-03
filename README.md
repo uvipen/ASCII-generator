@@ -8,7 +8,7 @@ Here is my python source code for ASCII generator. with my code, you could:
 * **Given input video, you could generate ASCII art stored under video formats (.avi, .mp4, ...)**
 
 ## Video to video
-By running the sript **video2video.py** with different values for *background* and *mode*, we will have following outputs:
+By running the script **video2video.py** with different values for *background* and *mode*, we will have following outputs:
 <p align="center">
   <img src="demo/input.gif" width=800><br/>
   <i>Input video</i>
@@ -35,7 +35,7 @@ By running the sript **video2video.py** with different values for *background* a
 </p>
 
 ## Image to text
-By running the sript **img2txt.py** with different values for *mode*, we will have following outputs:
+By running the script **img2txt.py** with different values for *mode*, we will have following outputs:
 <p align="center">
   <img src="demo/input.jpg" width=800><br/>
   <i>Input image</i>
@@ -52,7 +52,7 @@ By running the sript **img2txt.py** with different values for *mode*, we will ha
 </p>
 
 ## Image to image
-By running the sript **img2img.py** with different values for *background* and *mode*, we will have following outputs:
+By running the script **img2img.py** with different values for *background* and *mode*, we will have following outputs:
 <p align="center">
   <img src="demo/input.jpg" width=800><br/>
   <i>Input image</i>
