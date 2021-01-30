@@ -75,3 +75,5 @@ By running the sript **img2img_color.py** or **img2img.py** with different value
 * **cv2**
 * **PIL** 
 * **numpy**
+
+`python3 -m pip install -r requirements.txt`
