@@ -11,7 +11,7 @@ from PIL import Image, ImageFont, ImageDraw, ImageOps
 def get_args():
     parser = argparse.ArgumentParser("Image to ASCII")
     parser.add_argument("--input", type=str, default="data/input.mp4", help="Path to input video")
-    parser.add_argument("--output", type=str, default="data/output.avi", help="Path to output video")
+    parser.add_argument("--output", type=str, default="data/output.mp4", help="Path to output video")
     parser.add_argument("--mode", type=str, default="simple", choices=["simple", "complex"],
                         help="10 or 70 different characters")
     parser.add_argument("--background", type=str, default="white", choices=["black", "white"],
@@ -19,6 +19,7 @@ def get_args():
     parser.add_argument("--num_cols", type=int, default=100, help="number of character for output's width")
     parser.add_argument("--scale", type=int, default=1, help="upsize output")
     parser.add_argument("--fps", type=int, default=0, help="frame per second")
+    parser.add_argument("--overlay_ratio", type=float, default=0.2, help="Overlay width ratio")
     args = parser.parse_args()
     return args
 
@@ -41,9 +42,9 @@ def main(opt):
     num_chars = len(CHAR_LIST)
     num_cols = opt.num_cols
     while cap.isOpened():
-        flag, image = cap.read()
+        flag, frame = cap.read()
         if flag:
-            image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+            image = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         else:
             break
         height, width = image.shape
@@ -81,6 +82,10 @@ def main(opt):
             out = cv2.VideoWriter(opt.output, cv2.VideoWriter_fourcc(*"XVID"), fps,
                                   ((out_image.shape[1], out_image.shape[0])))
 
+        if opt.overlay_ratio:
+            height, width, _ = out_image.shape
+            overlay = cv2.resize(frame, (int(width * opt.overlay_ratio), int(height * opt.overlay_ratio)))
+            out_image[height - int(height * opt.overlay_ratio):, width - int(width * opt.overlay_ratio):, :] = overlay
         out.write(out_image)
     cap.release()
     out.release()
