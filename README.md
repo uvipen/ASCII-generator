@@ -45,6 +45,10 @@ We could generate ASCII art with different alphabets (english, german, french, k
   <i>Spanish</i>
 </p>
 
+<p align="center">
+  <img src="demo/russian_output.jpg" width=800><br/>
+  <i>Russian</i>
+</p>
 
 ## Video to video
 By running the sript **video2video_color.py** or **video2video.py** with different values for *background* and *mode*, we will have different outputs, for example:
