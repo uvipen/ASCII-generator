@@ -51,7 +51,7 @@ We could generate ASCII art with different alphabets (english, german, french, k
 </p>
 
 ## Video to video
-By running the sript **video2video_color.py** or **video2video.py** with different values for *background* and *mode*, we will have different outputs, for example:
+By running the script **video2video_color.py** or **video2video.py** with different values for *background* and *mode*, we will have different outputs, for example:
 <p align="center">
   <img src="demo/demo_complex_color_160.gif" width=800><br/>
   <i>Colored complex-character ASCII output</i>
@@ -63,7 +63,7 @@ By running the sript **video2video_color.py** or **video2video.py** with differe
 </p>
 
 ## Image to text
-By running the sript **img2txt.py** with different values for *mode*, we will have following outputs:
+By running the script **img2txt.py** with different values for *mode*, we will have following outputs:
 <p align="center">
   <img src="demo/input.jpg" width=800><br/>
   <i>Input image</i>
@@ -80,7 +80,7 @@ By running the sript **img2txt.py** with different values for *mode*, we will ha
 </p>
 
 ## Image to image
-By running the sript **img2img_color.py** or **img2img.py** with different values for *background* and *mode*, we will have following outputs:
+By running the script **img2img_color.py** or **img2img.py** with different values for *background* and *mode*, we will have following outputs:
 <p align="center">
   <img src="demo/input.jpg" width=800><br/>
   <i>Input image</i>
