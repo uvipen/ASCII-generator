@@ -8,7 +8,6 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageOps
 from utils import get_data, get_dominant_color
 
-#import warnings
 
 def get_args():
     parser = argparse.ArgumentParser("Image to ASCII")
@@ -19,7 +18,7 @@ def get_args():
     parser.add_argument("--background", type=str, default="auto", choices=["auto", "black", "white"],
                         help="background's color")
     parser.add_argument("--num_cols", type=int, default=300, help="number of character for output's width")
-    parser.add_argument("--scale", type=int, default=1, help="upsize output")
+    parser.add_argument("--scale", type=int, default=2, help="upsize output")
     args = parser.parse_args()
     return args
 
@@ -36,11 +35,12 @@ def main(opt):
         diff_white = 255 - dominant[0] + 255 - dominant[1] + 255 - dominant[2]
         if(diff_white <= 381):
             print("WHITE Background")
-            bg_code = (255, 255, 255)   # closer to white
+            opt.background = "white"
         else:
             print("BLACK Blackground")
-            bg_code = (0, 0, 0)   # closer to black
-    elif opt.background == "white":
+            opt.background = "black"
+
+    if opt.background == "white":
         bg_code = (255, 255, 255)
     else:
         bg_code = (0, 0, 0)
@@ -55,7 +55,6 @@ def main(opt):
         cell_height = 12
         num_cols = int(width / cell_width)
         num_rows = int(height / cell_height)
-    #char_width, char_height = font.getsize(sample_character)
     font_bbox = font.getbbox(sample_character)
     char_width, char_height = font_bbox[2] - font_bbox[0], font_bbox[3]
     out_width = char_width * num_cols
@@ -81,6 +80,5 @@ def main(opt):
 
 
 if __name__ == '__main__':
-    #warnings.filterwarnings("ignore", category=DeprecationWarning) 
     opt = get_args()
     main(opt)
