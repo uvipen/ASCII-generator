@@ -1,4 +1,5 @@
 import numpy as np
+import cv2
 from PIL import Image, ImageFont, ImageDraw, ImageOps
 
 
@@ -117,3 +118,14 @@ def get_data(language, mode):
         char_list = sort_chars(char_list, font, language)
 
     return char_list, font, sample_character, scale
+
+def get_dominant_color(img):
+    data = np.reshape(img, (-1,3))
+    data = np.float32(data)
+
+    criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1.0)
+    flags = cv2.KMEANS_RANDOM_CENTERS
+    compactness,labels,centers = cv2.kmeans(data,1,None,criteria,10,flags)
+
+    # print('Dominant color is: bgr({})'.format(centers[0].astype(np.int32)))
+    return tuple(centers[0].astype(np.int32))

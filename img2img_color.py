@@ -6,7 +6,7 @@ import argparse
 import cv2
 import numpy as np
 from PIL import Image, ImageDraw, ImageOps
-from utils import get_data
+from utils import get_data, get_dominant_color
 
 
 def get_args():
@@ -15,7 +15,7 @@ def get_args():
     parser.add_argument("--output", type=str, default="data/output.jpg", help="Path to output text file")
     parser.add_argument("--language", type=str, default="english")
     parser.add_argument("--mode", type=str, default="standard")
-    parser.add_argument("--background", type=str, default="black", choices=["black", "white"],
+    parser.add_argument("--background", type=str, default="auto", choices=["auto", "black", "white"],
                         help="background's color")
     parser.add_argument("--num_cols", type=int, default=300, help="number of character for output's width")
     parser.add_argument("--scale", type=int, default=2, help="upsize output")
@@ -24,15 +24,27 @@ def get_args():
 
 
 def main(opt):
-    if opt.background == "white":
-        bg_code = (255, 255, 255)
-    else:
-        bg_code = (0, 0, 0)
     char_list, font, sample_character, scale = get_data(opt.language, opt.mode)
     num_chars = len(char_list)
     num_cols = opt.num_cols
     image = cv2.imread(opt.input, cv2.IMREAD_COLOR)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+    if opt.background == "auto":
+        dominant = get_dominant_color(image)
+        diff_white = 255 - dominant[0] + 255 - dominant[1] + 255 - dominant[2]
+        if(diff_white <= 381):
+            print("WHITE Background")
+            opt.background = "white"
+        else:
+            print("BLACK Blackground")
+            opt.background = "black"
+
+    if opt.background == "white":
+        bg_code = (255, 255, 255)
+    else:
+        bg_code = (0, 0, 0)
+
     height, width, _ = image.shape
     cell_width = width / opt.num_cols
     cell_height = scale * cell_width
@@ -43,7 +55,8 @@ def main(opt):
         cell_height = 12
         num_cols = int(width / cell_width)
         num_rows = int(height / cell_height)
-    char_width, char_height = font.getsize(sample_character)
+    font_bbox = font.getbbox(sample_character)
+    char_width, char_height = font_bbox[2] - font_bbox[0], font_bbox[3]
     out_width = char_width * num_cols
     out_height = scale * char_height * num_rows
     out_image = Image.new("RGB", (out_width, out_height), bg_code)
@@ -63,6 +76,7 @@ def main(opt):
         cropped_image = out_image.getbbox()
     out_image = out_image.crop(cropped_image)
     out_image.save(opt.output)
+    print("Finished %s" % opt.input)
 
 
 if __name__ == '__main__':
