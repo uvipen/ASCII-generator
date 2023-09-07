@@ -13,6 +13,8 @@ def sort_chars(char_list, font, language):
         char_width, char_height = font.getsize("A")
     elif language == "russian":
         char_width, char_height = font.getsize("A")
+    elif language == "bengali":
+        char_width, char_height = font.getsize("A")
     num_chars = min(len(char_list), 100)
     out_width = char_width * len(char_list)
     out_height = char_height
@@ -101,6 +103,11 @@ def get_data(language, mode):
         from alphabets import JAPANESE as character
         font = ImageFont.truetype("fonts/arial-unicode.ttf", size=10)
         sample_character = "お"
+        scale = 1
+    elif language == "bengali":
+        from alphabets import BENGALI as character
+        font = ImageFont.truetype("fonts/NotoSerifBengali-Medium.ttf", size=12)
+        sample_character = "ক"
         scale = 1
     else:
         print("Invalid language")
